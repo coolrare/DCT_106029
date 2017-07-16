@@ -12,11 +12,18 @@ using DCT_106029.Models;
 
 namespace DCT_106029.Controllers
 {
+    [RoutePrefix("clients")]
     public class ClientsController : ApiController
     {
         private FabricsEntities db = new FabricsEntities();
 
+        public ClientsController()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+        }
+
         // GET: api/Clients
+        [Route("")]
         public IQueryable<Client> GetClient()
         {
             return db.Client;
@@ -24,6 +31,7 @@ namespace DCT_106029.Controllers
 
         // GET: api/Clients/5
         [ResponseType(typeof(Client))]
+        [Route("{id:int}")]
         public IHttpActionResult GetClient(int id)
         {
             Client client = db.Client.Find(id);
@@ -35,70 +43,22 @@ namespace DCT_106029.Controllers
             return Ok(client);
         }
 
-        // PUT: api/Clients/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutClient(int id, Client client)
+        [ResponseType(typeof(List<Order>))]
+        [Route("{id:int}/orders")]
+        public IHttpActionResult GetOrdersByClientId(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != client.ClientId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(client).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClientExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            var orders = db.Order.Where(p => p.ClientId == id);
+            return Ok(orders);
         }
 
-        // POST: api/Clients
-        [ResponseType(typeof(Client))]
-        public IHttpActionResult PostClient(Client client)
+
+        [ResponseType(typeof(List<Order>))]
+        [Route("{id:int}/orders/{*dt:datetime}")]
+        public IHttpActionResult GetOrdersByClientIdAndDateTime(int id, DateTime dt)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Client.Add(client);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = client.ClientId }, client);
-        }
-
-        // DELETE: api/Clients/5
-        [ResponseType(typeof(Client))]
-        public IHttpActionResult DeleteClient(int id)
-        {
-            Client client = db.Client.Find(id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            db.Client.Remove(client);
-            db.SaveChanges();
-
-            return Ok(client);
+            var orders = db.Order
+                .Where(p => p.ClientId == id && p.OrderDate > dt);
+            return Ok(orders);
         }
 
         protected override void Dispose(bool disposing)
