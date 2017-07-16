@@ -12,10 +12,7 @@ namespace DCT_106029.Controllers
         {
             if (!actionContext.ModelState.IsValid)
             {
-                actionContext.Response = new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, actionContext.ModelState);
             }
             base.OnActionExecuting(actionContext);
         }
