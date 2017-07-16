@@ -63,13 +63,9 @@ namespace DCT_106029.Controllers
         // PUT: api/Products/5
         [ResponseType(typeof(void))]
         [Route("{id:int}")]
+        [ValidateModel]
         public IHttpActionResult PutProduct(int id, Product product)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             if (id != product.ProductId)
             {
                 return BadRequest();
@@ -100,13 +96,9 @@ namespace DCT_106029.Controllers
         [ResponseType(typeof(Product))]
         [Route("")]
         [HttpPost]
+        [ValidateModel]
         public IHttpActionResult CreateProduct(Product product)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             db.Product.Add(product);
             db.SaveChanges();
 
