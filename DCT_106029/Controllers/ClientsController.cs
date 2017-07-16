@@ -76,7 +76,7 @@ namespace DCT_106029.Controllers
 
 
         [ResponseType(typeof(List<Order>))]
-        [Route("{id:int}/orders/{*dt:datetime}")]
+        [Route("{id:int}/orders")]
         public IHttpActionResult GetOrdersByClientIdAndDateTime(int id, DateTime dt)
         {
             var orders = db.Order
