@@ -25,6 +25,7 @@ namespace DCT_106029.Controllers
         }
 
         // GET: api/Products
+        [Route("products")]
         public IQueryable<Product> GetProduct()
         {
             return db.Product;
@@ -37,6 +38,7 @@ namespace DCT_106029.Controllers
         /// <param name="id">ProductId</param>
         /// <returns></returns>
         [ResponseType(typeof(Product))]
+        [Route("products/{id}")]
         public IHttpActionResult GetProduct(int id)
         {
             Product product = db.Product.Find(id);
@@ -46,6 +48,15 @@ namespace DCT_106029.Controllers
             }
 
             return Ok(product);
+        }
+
+
+        [ResponseType(typeof(List<OrderLine>))]
+        [Route("products/{id}/orderlines")]
+        public IHttpActionResult GetProductOrderLines(int id)
+        {
+            var orderlines = db.OrderLine.Where(p => p.ProductId == id);
+            return Ok(orderlines);
         }
 
         // PUT: api/Products/5
