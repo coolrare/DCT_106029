@@ -15,6 +15,7 @@ namespace DCT_106029.Controllers
     /// <summary>
     /// 商品相關 APIs
     /// </summary>
+    [RoutePrefix("products")]
     public class ProductsController : ApiController
     {
         private FabricsEntities db = new FabricsEntities();
@@ -25,7 +26,7 @@ namespace DCT_106029.Controllers
         }
 
         // GET: api/Products
-        [Route("products")]
+        [Route("")]
         public IQueryable<Product> GetProduct()
         {
             return db.Product;
@@ -38,7 +39,7 @@ namespace DCT_106029.Controllers
         /// <param name="id">ProductId</param>
         /// <returns></returns>
         [ResponseType(typeof(Product))]
-        [Route("products/{id}")]
+        [Route("{id:int}")]
         public IHttpActionResult GetProduct(int id)
         {
             Product product = db.Product.Find(id);
@@ -52,7 +53,7 @@ namespace DCT_106029.Controllers
 
 
         [ResponseType(typeof(List<OrderLine>))]
-        [Route("products/{id}/orderlines")]
+        [Route("{id:int}/orderlines")]
         public IHttpActionResult GetProductOrderLines(int id)
         {
             var orderlines = db.OrderLine.Where(p => p.ProductId == id);
@@ -61,6 +62,7 @@ namespace DCT_106029.Controllers
 
         // PUT: api/Products/5
         [ResponseType(typeof(void))]
+        [Route("{id:int}")]
         public IHttpActionResult PutProduct(int id, Product product)
         {
             if (!ModelState.IsValid)
@@ -96,7 +98,7 @@ namespace DCT_106029.Controllers
 
         // POST: api/Products
         [ResponseType(typeof(Product))]
-        [Route("products")]
+        [Route("")]
         [HttpPost]
         public IHttpActionResult CreateProduct(Product product)
         {
@@ -113,6 +115,7 @@ namespace DCT_106029.Controllers
 
         // DELETE: api/Products/5
         [ResponseType(typeof(Product))]
+        [Route("{id:int}")]
         public IHttpActionResult DeleteProduct(int id)
         {
             Product product = db.Product.Find(id);
