@@ -48,6 +48,24 @@ namespace DCT_106029.Controllers
             };
         }
 
+        [Route("test1")]
+        [HttpGet]
+        public HttpResponseMessage Test1()
+        {
+            return new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("酷奇資訊")
+            };
+        }
+
+        [Route("test2")]
+        [HttpGet]
+        public string Test2()
+        {
+            return "酷奇資訊";
+        }
+
         [ResponseType(typeof(List<Order>))]
         [Route("{id:int}/orders")]
         public IHttpActionResult GetOrdersByClientId(int id)
