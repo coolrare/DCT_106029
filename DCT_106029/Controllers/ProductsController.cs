@@ -96,7 +96,9 @@ namespace DCT_106029.Controllers
 
         // POST: api/Products
         [ResponseType(typeof(Product))]
-        public IHttpActionResult PostProduct(Product product)
+        [Route("products")]
+        [HttpPost]
+        public IHttpActionResult CreateProduct(Product product)
         {
             if (!ModelState.IsValid)
             {
