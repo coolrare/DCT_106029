@@ -12,6 +12,9 @@ using DCT_106029.Models;
 
 namespace DCT_106029.Controllers
 {
+    /// <summary>
+    /// 商品相關 APIs
+    /// </summary>
     public class ProductsController : ApiController
     {
         private FabricsEntities db = new FabricsEntities();
@@ -28,6 +31,11 @@ namespace DCT_106029.Controllers
         }
 
         // GET: api/Products/5
+        /// <summary>
+        /// 取得單筆商品
+        /// </summary>
+        /// <param name="id">ProductId</param>
+        /// <returns></returns>
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
