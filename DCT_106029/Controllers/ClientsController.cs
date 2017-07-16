@@ -32,15 +32,20 @@ namespace DCT_106029.Controllers
         // GET: api/Clients/5
         [ResponseType(typeof(Client))]
         [Route("{id:int}")]
-        public IHttpActionResult GetClient(int id)
+        public HttpResponseMessage GetClient(int id)
         {
             Client client = db.Client.Find(id);
             if (client == null)
             {
-                return NotFound();
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            return Ok(client);
+            return new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new ObjectContent<Client>(client,
+                    GlobalConfiguration.Configuration.Formatters.JsonFormatter)
+            };
         }
 
         [ResponseType(typeof(List<Order>))]
