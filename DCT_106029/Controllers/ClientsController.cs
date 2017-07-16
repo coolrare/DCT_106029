@@ -13,6 +13,7 @@ using DCT_106029.Models;
 namespace DCT_106029.Controllers
 {
     [RoutePrefix("clients")]
+    [Authorize]
     public class ClientsController : ApiController
     {
         private FabricsEntities db = new FabricsEntities();
