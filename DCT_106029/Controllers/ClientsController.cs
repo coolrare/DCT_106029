@@ -32,11 +32,13 @@ namespace DCT_106029.Controllers
         // GET: api/Clients/5
         [ResponseType(typeof(Client))]
         [Route("{id:int}")]
+        [MyErrorHandler]
         public HttpResponseMessage GetClient(int id)
         {
             Client client = db.Client.Find(id);
             if (client == null)
             {
+                throw new Exception("ClientID 錯誤");
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
